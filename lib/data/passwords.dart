@@ -5,13 +5,16 @@ class ApiData {
     _passwordsList = [];
   }
 
-  ApiData.fromJson(String jsonData) {
-    //TODO:Implementation of fromJSON
+  ApiData.fromJson(List<dynamic> jsonData) {
+    _passwordsList = [];
+    for (int i = 0; i < jsonData.length; i++) {
+      _passwordsList.add(Password.fromJson(jsonData[i]));
+    }
   }
 
-  String toJson() {
+  Map<String, dynamic> toJson() {
     //TODO:Implementation of toJSON
-    return "";
+    return {};
   }
 
   List<Password> get getPasswordsList => _passwordsList;
@@ -33,6 +36,19 @@ class Password {
   String _password;
 
   Password(this._id, this._name, this._url, this._username, this._password);
+
+  Password.fromJson(Map<String, dynamic> jsonData) {
+    _id = int.parse(jsonData["id"]);
+    _name = jsonData["name"];
+    _url = jsonData["url"];
+    _username = jsonData["username"];
+    _password = jsonData["password"];
+  }
+
+  Map<String, dynamic> toJson() {
+    //TODO:Implementation of toJSON
+    return {};
+  }
 
   int get getID => _id;
   String get getName => _name;
