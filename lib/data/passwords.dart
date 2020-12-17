@@ -1,3 +1,5 @@
+import 'package:cero_pwd/services/network.dart';
+
 class ApiData {
   List<Password> _passwordsList;
 
@@ -23,7 +25,10 @@ class ApiData {
 
   void deletePassword({int index}) {}
 
-  void refreshPassword() {}
+  Future<ApiData> refreshPassword() async {
+    List<dynamic> jsonData = await selectAction();
+    return ApiData.fromJson(jsonData);
+  }
 
   void createPassword() {}
 }
