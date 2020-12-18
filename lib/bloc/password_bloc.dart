@@ -14,17 +14,24 @@ class DeleteEvent extends PasswordsEvent {
   DeleteEvent({@required this.index});
 }
 
-class ModifyEvent extends PasswordsEvent {}
+class ModifyEvent extends PasswordsEvent {
+  int index;
+  Password password;
+
+  ModifyEvent({@required this.index, @required this.password});
+}
 
 class PasswordBloc extends Bloc<PasswordsEvent, ApiData> {
   PasswordBloc(List<dynamic> jsonData) : super(ApiData.fromJson(jsonData));
 
   @override
-  Stream<ApiData> mapEventToState(PasswordsEvent event, {int id}) async* {
+  Stream<ApiData> mapEventToState(PasswordsEvent event) async* {
     if (event is CreateEvent) {
     } else if (event is SelectEvent) {
       yield await state.refreshPassword();
     } else if (event is ModifyEvent) {
+      yield await state.updatePassword(
+          index: event.index, password: event.password);
     } else if (event is DeleteEvent) {
       yield await state.deletePassword(index: event.index);
     }

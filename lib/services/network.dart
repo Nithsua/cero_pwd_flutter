@@ -19,3 +19,13 @@ Future<List<dynamic>> deleteAction(int id) async {
   List<dynamic> jsonData = jsonDecode(data);
   return jsonData;
 }
+
+Future<List<dynamic>> updateAction(int id, Map<String, dynamic> json) async {
+  print(json);
+  http.Response response =
+      await http.post(URL + "?action=modify", body: jsonEncode(json));
+  String data = response.body;
+  print(data);
+  List<dynamic> jsonData = jsonDecode(data);
+  return jsonData;
+}

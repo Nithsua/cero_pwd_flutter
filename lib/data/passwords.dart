@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cero_pwd/services/network.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +26,12 @@ class ApiData {
 
   Password getPassword(int index) => _passwordsList[index];
 
-  // Future<ApiData> updatePassword({int index, Password password}) {}
+  Future<ApiData> updatePassword(
+      {@required int index, @required Password password}) async {
+    int id = _passwordsList[index]._id;
+    List<dynamic> jsonData = await updateAction(id, password.toJson());
+    return ApiData.fromJson(jsonData);
+  }
 
   Future<ApiData> deletePassword({@required int index}) async {
     int id = _passwordsList[index]._id;
@@ -58,8 +65,14 @@ class Password {
   }
 
   Map<String, dynamic> toJson() {
-    //TODO:Implementation of toJSON
-    return {};
+    Map<String, dynamic> tempMap = {
+      "id": _id.toString(),
+      "name": _name,
+      "url": _url,
+      "username": _username,
+      "password": _password,
+    };
+    return tempMap;
   }
 
   int get getID => _id;
