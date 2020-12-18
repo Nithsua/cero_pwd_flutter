@@ -12,15 +12,16 @@ Future<List<dynamic>> selectAction() async {
   return jsonData;
 }
 
-Future<List<dynamic>> deleteAction(int id) async {
-  http.Response response = await http.get(URL + "?action=delete&id=$id");
+Future<List<dynamic>> deleteAction(String uuid) async {
+  http.Response response = await http.get(URL + "?action=delete&uuid=$uuid");
   String data = response.body;
   print(data);
   List<dynamic> jsonData = jsonDecode(data);
   return jsonData;
 }
 
-Future<List<dynamic>> updateAction(int id, Map<String, dynamic> json) async {
+Future<List<dynamic>> updateAction(
+    String uuid, Map<String, dynamic> json) async {
   print(json);
   http.Response response =
       await http.post(URL + "?action=modify", body: jsonEncode(json));

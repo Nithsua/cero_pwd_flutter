@@ -139,7 +139,7 @@ class _PasswordViewState extends State<PasswordView> {
                                       print(nameEditingController.text);
                                       Password tempPassword = Password(
                                         state.getPasswordsList[widget.index]
-                                            .getID,
+                                            .getUUID,
                                         nameEditingController.text,
                                         urlEditingController.text,
                                         usernameEditingController.text,
