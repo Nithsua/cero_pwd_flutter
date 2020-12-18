@@ -30,3 +30,14 @@ Future<List<dynamic>> updateAction(
   List<dynamic> jsonData = jsonDecode(data);
   return jsonData;
 }
+
+Future<List<dynamic>> createAction(Map<String, dynamic> json) async {
+  print(json);
+  json.remove('uuid');
+  http.Response response =
+      await http.post(URL + "?action=create", body: jsonEncode(json));
+  String data = response.body;
+  print(data);
+  List<dynamic> jsonData = jsonDecode(data);
+  return jsonData;
+}

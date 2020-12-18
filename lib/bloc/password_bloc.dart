@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 abstract class PasswordsEvent {}
 
-class CreateEvent extends PasswordsEvent {}
+class CreateEvent extends PasswordsEvent {
+  Password password;
+
+  CreateEvent({@required this.password});
+}
 
 class SelectEvent extends PasswordsEvent {}
 
@@ -27,6 +31,7 @@ class PasswordBloc extends Bloc<PasswordsEvent, ApiData> {
   @override
   Stream<ApiData> mapEventToState(PasswordsEvent event) async* {
     if (event is CreateEvent) {
+      yield await state.createPassword(password: event.password);
     } else if (event is SelectEvent) {
       yield await state.refreshPassword();
     } else if (event is ModifyEvent) {

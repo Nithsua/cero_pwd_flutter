@@ -42,7 +42,10 @@ class ApiData {
     return ApiData.fromJson(jsonData);
   }
 
-  void createPassword() {}
+  Future<ApiData> createPassword({@required Password password}) async {
+    List<dynamic> jsonData = await createAction(password.toJson());
+    return ApiData.fromJson(jsonData);
+  }
 }
 
 class Password {
