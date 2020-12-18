@@ -1,6 +1,7 @@
 import 'package:cero_pwd/bloc/password_bloc.dart';
 import 'package:cero_pwd/data/passwords.dart';
 import 'package:cero_pwd/services/network.dart';
+import 'package:cero_pwd/views/passwordview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,14 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             centerTitle: true,
             color: Colors.black,
+            iconTheme: IconThemeData(
+              color: Colors.grey[400],
+              size: 27.0,
+            ),
+            actionsIconTheme: IconThemeData(
+              size: 27.0,
+              color: Colors.grey[400],
+            ),
           ),
           scaffoldBackgroundColor: Colors.black),
       home: Scaffold(
@@ -20,8 +29,6 @@ class MyApp extends StatelessWidget {
           leading: IconButton(
             icon: Icon(
               Icons.settings_outlined,
-              size: 27.0,
-              color: Colors.grey[400],
             ),
             onPressed: () {},
           ),
@@ -35,8 +42,6 @@ class MyApp extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.add_circle_outline_rounded,
-                size: 27.0,
-                color: Colors.grey[400],
               ),
               onPressed: () {},
             )
@@ -56,7 +61,7 @@ class MyApp extends StatelessWidget {
                       backgroundColor: Colors.grey[400],
                       color: Colors.black,
                       onRefresh: () {
-                        context.read<PasswordBloc>().add(PasswordsEvent.select);
+                        context.read<PasswordBloc>().add(SelectEvent());
                         return context.read<PasswordBloc>().first;
                       },
                       child: ListView.builder(
@@ -68,17 +73,36 @@ class MyApp extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 3.0),
                               child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                onTap: () {
+                                  PasswordBloc _passwordBloc =
+                                      BlocProvider.of<PasswordBloc>(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PasswordView(
+                                        index: position,
+                                        passwordBloc: _passwordBloc,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 leading: Icon(
                                   Icons.apps,
                                   color: Colors.white,
                                   size: 35.0,
                                 ),
-                                title: Text(
-                                  tempPassword.getName,
-                                  style: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17.0,
+                                title: Hero(
+                                  tag: position,
+                                  child: Text(
+                                    tempPassword.getName,
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.0,
+                                    ),
                                   ),
                                 ),
                                 subtitle: Text(

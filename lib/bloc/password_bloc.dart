@@ -1,17 +1,32 @@
 import 'package:bloc/bloc.dart';
 import 'package:cero_pwd/data/passwords.dart';
+import 'package:flutter/material.dart';
 
-enum PasswordsEvent { create, select, update, delete }
+abstract class PasswordsEvent {}
+
+class CreateEvent extends PasswordsEvent {}
+
+class SelectEvent extends PasswordsEvent {}
+
+class DeleteEvent extends PasswordsEvent {
+  int index;
+
+  DeleteEvent({@required this.index});
+}
+
+class ModifyEvent extends PasswordsEvent {}
 
 class PasswordBloc extends Bloc<PasswordsEvent, ApiData> {
   PasswordBloc(List<dynamic> jsonData) : super(ApiData.fromJson(jsonData));
 
   @override
-  Stream<ApiData> mapEventToState(PasswordsEvent event) async* {
-    if (event == PasswordsEvent.create) {
-    } else if (event == PasswordsEvent.select) {
+  Stream<ApiData> mapEventToState(PasswordsEvent event, {int id}) async* {
+    if (event is CreateEvent) {
+    } else if (event is SelectEvent) {
       yield await state.refreshPassword();
-    } else if (event == PasswordsEvent.update) {
-    } else if (event == PasswordsEvent.delete) {}
+    } else if (event is ModifyEvent) {
+    } else if (event is DeleteEvent) {
+      yield await state.deletePassword(index: event.index);
+    }
   }
 }

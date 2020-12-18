@@ -1,4 +1,5 @@
 import 'package:cero_pwd/services/network.dart';
+import 'package:flutter/material.dart';
 
 class ApiData {
   List<Password> _passwordsList;
@@ -21,9 +22,15 @@ class ApiData {
 
   List<Password> get getPasswordsList => _passwordsList;
 
-  void updatePassword({int index, Password password}) {}
+  Password getPassword(int index) => _passwordsList[index];
 
-  void deletePassword({int index}) {}
+  // Future<ApiData> updatePassword({int index, Password password}) {}
+
+  Future<ApiData> deletePassword({@required int index}) async {
+    int id = _passwordsList[index]._id;
+    List<dynamic> jsonData = await deleteAction(id);
+    return ApiData.fromJson(jsonData);
+  }
 
   Future<ApiData> refreshPassword() async {
     List<dynamic> jsonData = await selectAction();
